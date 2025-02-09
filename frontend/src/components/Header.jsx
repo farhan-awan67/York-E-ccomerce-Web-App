@@ -72,7 +72,7 @@ const Header = () => {
             setMenu(!menu);
             console.log("clicked");
           }}
-          className="text-[24px] font-extrabold block sm:hidden"
+          className="text-[24px] font-extrabold block sm:hidden cursor-pointer"
         />
       </div>
 
