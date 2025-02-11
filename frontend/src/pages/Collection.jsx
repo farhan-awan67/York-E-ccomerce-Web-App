@@ -4,12 +4,13 @@ import ProductItem from "../components/ProductItem";
 import Title from "../components/Title";
 
 const Collection = () => {
-  const { products } = useContext(ShopContext);
+  const { products, search, showSearch } = useContext(ShopContext);
   const [showFilter, setShowFilter] = useState(false);
   const [filterProducts, setFilterProducts] = useState([]);
   const [category, setCategory] = useState([]);
   const [subCategory, setSubCategory] = useState([]);
   const [productSort, setProductSort] = useState("relavent");
+
 
   const handleCategory = (e) => {
     const productCopy = products.slice();
@@ -27,7 +28,6 @@ const Collection = () => {
     } else {
       setSubCategory((prev) => [...prev, e.target.value]);
     }
-    console.log(subCategory);
   };
 
   const applyFilter = () => {
@@ -40,6 +40,11 @@ const Collection = () => {
     if (subCategory.length > 0) {
       productsCopy = productsCopy.filter((item) =>
         subCategory.includes(item.subCategory)
+      );
+    }
+    if (showSearch && search) {
+      productsCopy = productsCopy.filter((item) =>
+        item.name.toLowerCase().includes(search.toLowerCase())
       );
     }
     setFilterProducts(productsCopy);
@@ -64,7 +69,7 @@ const Collection = () => {
 
   useEffect(() => {
     applyFilter();
-  }, [category, subCategory]);
+  }, [category, subCategory, search, showSearch]);
 
   useEffect(() => {
     handelSort();

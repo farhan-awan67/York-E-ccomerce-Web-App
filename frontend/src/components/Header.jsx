@@ -1,13 +1,15 @@
-import { useState } from "react";
-import { Link,NavLink } from "react-router-dom";
+import { useContext, useState } from "react";
+import { Link, NavLink } from "react-router-dom";
 import { CiSearch } from "react-icons/ci";
 import { CiUser } from "react-icons/ci";
 import { MdOutlineShoppingBag } from "react-icons/md";
 import { CiMenuFries } from "react-icons/ci";
 import { IoIosClose } from "react-icons/io";
+import { ShopContext } from "../context/shopContext";
 
 const Header = () => {
   const [menu, setMenu] = useState(false);
+  const { setShowSearch } = useContext(ShopContext);
   return (
     <div className="flex justify-between items-center py-4">
       <h1 className="text-[45px] tracking-tighter leading-none">York.</h1>
@@ -50,7 +52,10 @@ const Header = () => {
         </NavLink>
       </div>
       <div className="flex justify-between items-center gap-3 md:gap-3">
-        <CiSearch className="text-[26px] font-bold" />
+        <CiSearch
+          onClick={() => setShowSearch(true)}
+          className="text-[26px] font-bold cursor-pointer"
+        />
         <div className="group relative">
           <CiUser className="text-[26px] font-bold cursor-pointer" />
           <div className="hidden group-hover:block absolute right-0 pt-4">

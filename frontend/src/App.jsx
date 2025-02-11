@@ -11,19 +11,21 @@ import Cart from "../src/pages/Cart";
 import Collection from "../src/pages/Collection";
 import About from "../src/pages/About";
 import Contact from "../src/pages/Contact";
+import SearchBar from "./components/SearchBar";
 
 function App() {
   return (
     <div className="px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]">
       <Header />
+      <SearchBar />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/orders" element={<Orders />} />
         <Route path="/place-order" element={<PlaceOrder />} />
-        <Route path="/product/:id" element={<Product />} />
+        <Route path="/product/:productId" element={<Product />} />
         <Route path="/cart" element={<Cart />} />
-        <Route path="/collection" element={<Collection/>} />
+        <Route path="/collection" element={<Collection />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
       </Routes>
