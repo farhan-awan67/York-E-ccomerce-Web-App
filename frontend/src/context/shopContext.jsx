@@ -33,9 +33,29 @@ const ShopContextProvider = ({ children }) => {
     setCartItem(cartData);
   };
 
-  useEffect(() => {
-    console.log(cartItem);
-  }, [cartItem]);
+  const getCartCount = () => {
+    let totalCount = 0;
+
+    for (let productId in cartItem) {
+      for (let size in cartItem[productId]) {
+        try {
+          if (cartItem[productId][size]) {
+            totalCount += cartItem[productId][size];
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    }
+    return totalCount;
+  };
+
+  const updateCartQuantity = async (itemId, size, quantity) => {
+    const cartData = structuredClone(cartItem);
+
+    cartData[itemId][size] = quantity;
+    setCartItem(cartData);
+  };
 
   const value = {
     currency,
@@ -48,6 +68,8 @@ const ShopContextProvider = ({ children }) => {
     addToCart,
     setCartItem,
     cartItem,
+    getCartCount,
+    updateCartQuantity,
   };
   return <ShopContext.Provider value={value}>{children}</ShopContext.Provider>;
 };

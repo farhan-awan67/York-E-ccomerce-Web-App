@@ -9,7 +9,7 @@ import { ShopContext } from "../context/shopContext";
 
 const Header = () => {
   const [menu, setMenu] = useState(false);
-  const { setShowSearch } = useContext(ShopContext);
+  const { setShowSearch, getCartCount } = useContext(ShopContext);
   return (
     <div className="flex justify-between items-center py-4">
       <h1 className="text-[45px] tracking-tighter leading-none">York.</h1>
@@ -69,7 +69,7 @@ const Header = () => {
         <Link to={"/cart"} className="relative">
           <MdOutlineShoppingBag className="text-[26px] font-bold" />
           <p className="bg-black text-white absolute rounded-full text-center leading-4 text-[8px] aspect-square w-4 bottom-[-5px] right-[-5px]">
-            0
+            {getCartCount()}
           </p>
         </Link>
         <CiMenuFries
