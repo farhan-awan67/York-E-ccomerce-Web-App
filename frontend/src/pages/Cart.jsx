@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { ShopContext } from "../context/shopContext";
 import Title from "../components/Title";
 import { assets } from "../assets/frontend_assets/assets";
+import CartTotal from "../components/CartTotal";
 const Cart = () => {
   const { products, cartItem, currency, updateCartQuantity } =
     useContext(ShopContext);
@@ -92,42 +93,7 @@ const Cart = () => {
       </div>
 
       {/* chechkout */}
-      <div class="flex justify-end my-20">
-        <div class="w-full sm:w-[450px]">
-          <div class="w-full">
-            <div class="text-2xl">
-              {/* <div class="inline-flex gap-2 items-center mb-3">
-                <p class="text-gray-500">
-                  CART <span class="text-gray-700 font-medium">TOTALS</span>
-                </p>
-                <p class="w-8 sm:w-12 h-[1px] sm:h-[2px] bg-gray-700"></p>
-              </div> */}
-              <Title text1={"CART "} text2={"TOTALS"} />
-            </div>
-            <div class="flex flex-col gap-2 mt-2 text-sm">
-              <div class="flex justify-between">
-                <p>Subtotal</p>
-                <p>$ 38.00</p>
-              </div>
-              <hr />
-              <div class="flex justify-between">
-                <p>Shipping Fee</p>
-                <p>$ 10.00</p>
-              </div>
-              <hr />
-              <div class="flex justify-between">
-                <b>Total</b>
-                <b>$ 48.00</b>
-              </div>
-            </div>
-          </div>
-          <div class=" w-full text-end">
-            <button class="bg-black text-white text-sm my-8 px-8 py-3">
-              PROCEED TO CHECKOUT
-            </button>
-          </div>
-        </div>
-      </div>
+      <CartTotal />
     </div>
   );
 };

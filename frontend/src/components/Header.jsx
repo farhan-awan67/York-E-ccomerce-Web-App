@@ -9,7 +9,8 @@ import { ShopContext } from "../context/shopContext";
 
 const Header = () => {
   const [menu, setMenu] = useState(false);
-  const { setShowSearch, getCartCount } = useContext(ShopContext);
+  const { setShowSearch, getCartCount, navigate } = useContext(ShopContext);
+
   return (
     <div className="flex justify-between items-center py-4">
       <h1 className="text-[45px] tracking-tighter leading-none">York.</h1>
@@ -57,7 +58,10 @@ const Header = () => {
           className="text-[26px] font-bold cursor-pointer"
         />
         <div className="group relative">
-          <CiUser className="text-[26px] font-bold cursor-pointer" />
+          <CiUser
+            onClick={() => navigate("/login")}
+            className="text-[26px] font-bold cursor-pointer"
+          />
           <div className="hidden group-hover:block absolute right-0 pt-4">
             <div className="flex flex-col gap-2 w-36 px-5 py-3 bg-slate-100 text-teal-600">
               <p className="cursor-pointer hover:text-black">My Profile</p>
