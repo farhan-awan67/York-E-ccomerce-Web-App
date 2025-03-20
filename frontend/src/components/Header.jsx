@@ -47,7 +47,7 @@ const Header = () => {
           className="flex justify-between items-center flex-col gap-0.5"
           to={"/admin"}
         >
-          <p className="text-[14px] font-medium rounded-full py-1 px-2 border-2 border-[#5D5C68]">
+          <p className="border px-5 text-xs py-1 rounded-full -mt-2 py-2">
             Admin Panel
           </p>
         </NavLink>
