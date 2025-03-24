@@ -77,10 +77,8 @@ export const adminLogin = asyncHandler(async (req, res) => {
     email === process.env.ADMIN_EMAIL &&
     password === process.env.ADMIN_PASSWORD
   ) {
-    const token = jwt.sign({ email, password }, process.env.JWT_SECRET, {
-      expiresIn: "1d", // Set expiration time (optional)
-    });
-    res.json({ success: true, token });
+    const token = jwt.sign(email+password, process.env.JWT_SECRET);
+    res.json({ success: true, message: "Login successfull", token });
   } else {
     res.status(401).json({ success: false, message: "Invalid credentiols" });
   }

@@ -21,14 +21,45 @@ const Login = ({ setToken }) => {
 
     //sending data
     try {
-      const res = await axios.post(
+      const response = await axios.post(
         `${import.meta.env.VITE_BACKEND_URL}/api/user/admin`,
         data
       );
-      setToken(res.data.token);
-      ;
-
-      console.log(res.data.token);
+      if (response.data.success) {
+        setToken(response.data.token);
+        toast.success(response.data.message, {
+          position: "top-right", // Position of the toast
+          autoClose: 5000, // Auto close after 5 seconds
+          hideProgressBar: false, // Hide progress bar
+          closeOnClick: true, // Close on click
+          pauseOnHover: true, // Pause on hover
+          draggable: false, // Allow drag
+          style: {
+            backgroundColor: "white", // Set background color (Tomato red)
+            color: "red", // Set text color (white)
+            fontWeight: "bold", // Set font weight
+            borderRadius: "10px", // Rounded corners
+            marginTop: "2px", // margin top
+          },
+        });
+      } else {
+        toast.error(response.data.message, {
+          position: "top-right", // Position of the toast
+          autoClose: 5000, // Auto close after 5 seconds
+          hideProgressBar: false, // Hide progress bar
+          closeOnClick: true, // Close on click
+          pauseOnHover: true, // Pause on hover
+          draggable: false, // Allow drag
+          style: {
+            backgroundColor: "white", // Set background color (Tomato red)
+            color: "red", // Set text color (white)
+            fontWeight: "bold", // Set font weight
+            borderRadius: "10px", // Rounded corners
+            marginTop: "2px", // margin top
+          },
+        });
+      }
+      console.log(response.data.message);
     } catch (error) {
       toast.error(error.message, {
         position: "top-right", // Position of the toast

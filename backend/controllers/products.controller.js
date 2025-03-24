@@ -13,7 +13,7 @@ export const addProduct = asyncHandler(async (req, res) => {
   const image3 = req.files.image3 && req.files.image3[0];
   const image4 = req.files.image4 && req.files.image4[0];
   const images = [image1, image2, image3, image4].filter(
-    (item) => item !== "undefined"
+    (item) => item !== undefined
   );
   const imageUrl = await Promise.all(
     images.map(async (item) => {
@@ -44,7 +44,7 @@ export const addProduct = asyncHandler(async (req, res) => {
 //list products
 export const listProducts = asyncHandler(async (req, res) => {
   const products = await Products.find({});
-  res.json({ success: true, message: "products", data: products });
+  res.json({ success: true, message: "products", products });
 });
 
 //single product
