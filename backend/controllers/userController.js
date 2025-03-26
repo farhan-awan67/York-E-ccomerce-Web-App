@@ -9,6 +9,7 @@ const assignToken = (id) => {
 };
 
 export const register = async (req, res) => {
+  let token;
   try {
     const { name, email, password } = req.body;
     //checking values
@@ -22,11 +23,14 @@ export const register = async (req, res) => {
     }
     //creating new user
     const newUser = new User({ name, email, password });
+    if (newUser) {
+      token = assignToken(newUser._id);
+    }
     const user = await newUser.save();
     res.json({
       success: true,
       message: "user created successfully",
-      data: user,
+      token,
     });
   } catch (error) {
     console.log(error);
@@ -44,14 +48,14 @@ export const login = asyncHandler(async (req, res) => {
   const existUser = await User.findOne({ email });
   const correct = await existUser.comparePassword(password);
   let token;
-  //if password is wrong
+  //if password is correct
   if (correct) {
     token = assignToken(existUser._id);
     res.json({
       success: true,
       message: "Login Successfully",
       token,
-      data: existUser,
+      existUser,
     });
   } else {
     res.json({ success: false, message: "Incorrect Email or Password" });
@@ -77,7 +81,7 @@ export const adminLogin = asyncHandler(async (req, res) => {
     email === process.env.ADMIN_EMAIL &&
     password === process.env.ADMIN_PASSWORD
   ) {
-    const token = jwt.sign(email+password, process.env.JWT_SECRET);
+    const token = jwt.sign(email + password, process.env.JWT_SECRET);
     res.json({ success: true, message: "Login successfull", token });
   } else {
     res.status(401).json({ success: false, message: "Invalid credentiols" });

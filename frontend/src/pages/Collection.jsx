@@ -11,7 +11,6 @@ const Collection = () => {
   const [subCategory, setSubCategory] = useState([]);
   const [productSort, setProductSort] = useState("relavent");
 
-
   const handleCategory = (e) => {
     const productCopy = products.slice();
     if (category.includes(e.target.value)) {
@@ -69,7 +68,7 @@ const Collection = () => {
 
   useEffect(() => {
     applyFilter();
-  }, [category, subCategory, search, showSearch]);
+  }, [category, subCategory, search, showSearch, products]);
 
   useEffect(() => {
     handelSort();

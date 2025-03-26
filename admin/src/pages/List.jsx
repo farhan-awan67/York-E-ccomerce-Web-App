@@ -3,7 +3,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { currency } from "../App";
 
-const List = () => {
+const List = ({ token }) => {
   const [list, setLsit] = useState([]);
 
   const getList = async () => {
@@ -17,6 +17,22 @@ const List = () => {
         toast.error(response.data.message);
       }
     } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
+  const removeProduct = async (id) => {
+    try {
+      const response = await axios.delete(
+        `${import.meta.env.VITE_BACKEND_URL}/api/product/remove/${id}`,
+        { headers: { token } }
+      );
+      if (response.data.success) {
+        getList();
+        toast.success(response.data.message);
+      }
+    } catch (error) {
+      console.log(error.message);
       toast.error(error.message);
     }
   };
@@ -54,7 +70,10 @@ const List = () => {
                   {currency}
                   {item.price}
                 </p>
-                <p className="text-right md:text-center cursor-pointer text-lg">
+                <p
+                  onClick={() => removeProduct(item._id)}
+                  className="text-right md:text-center cursor-pointer text-lg"
+                >
                   X
                 </p>
               </div>

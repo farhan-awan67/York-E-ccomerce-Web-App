@@ -22,6 +22,6 @@ productRouter.post(
 );
 productRouter.get("/products", listProducts);
 productRouter.post("/single-product/:id", singleProduct);
-productRouter.delete("/remove/:id", removeProduct);
+productRouter.delete("/remove/:id", admninAuth, removeProduct);
 
 export default productRouter;

@@ -56,7 +56,7 @@ export const singleProduct = asyncHandler(async (req, res) => {
 
 //remove product
 export const removeProduct = asyncHandler(async (req, res) => {
-  const { id } = req.body;
+  const { id } = req.params;
   const removedProduct = await Products.findByIdAndDelete(id);
   if (!removedProduct) {
     return res
