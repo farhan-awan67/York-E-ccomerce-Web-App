@@ -10,20 +10,22 @@ const Cart = () => {
 
   useEffect(() => {
     const tempData = [];
-    //getting product with product id
-    for (let productId in cartItem) {
-      //getting sizes of that specific product
-      for (let size in cartItem[productId]) {
-        if (cartItem[productId][size] > 0) {
-          tempData.push({
-            _id: productId,
-            size,
-            quantity: cartItem[productId][size],
-          });
-        }
-      }
-    }
-    setCartData(tempData);
+   if(products.length > 0){
+     //getting product with product id
+     for (let productId in cartItem) {
+       //getting sizes of that specific product
+       for (let size in cartItem[productId]) {
+         if (cartItem[productId][size] > 0) {
+           tempData.push({
+             _id: productId,
+             size,
+             quantity: cartItem[productId][size],
+           });
+         }
+       }
+     }
+     setCartData(tempData);
+   }
   }, [cartItem]);
 
   return (

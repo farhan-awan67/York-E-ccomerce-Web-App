@@ -4,8 +4,9 @@ import cors from "cors";
 import "dotenv/config";
 import connectDB from "./config/db.js";
 import connectCloudinary from "./config/cloudinary.js";
-import userRouter from "./routes/userRoutes.js";
-import productRouter from "./routes/products.route.js";
+import userRouter from "./routes/user.routes.js";
+import productRouter from "./routes/products.routes.js";
+import cartRouter from "./routes/cart.routes.js";
 
 //middlewares
 app.use(express.json());
@@ -18,6 +19,7 @@ const PORT = process.env.PORT || 3000;
 //endpoints
 app.use("/api/user", userRouter);
 app.use("/api/product", productRouter);
+app.use("/api/cart", cartRouter);
 app.get("/", (req, res) => {
   res.send("hello World");
 });

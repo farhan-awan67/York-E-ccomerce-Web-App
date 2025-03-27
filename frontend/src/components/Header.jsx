@@ -2,14 +2,21 @@ import { useContext, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { CiSearch } from "react-icons/ci";
 import { CiUser } from "react-icons/ci";
-import { MdOutlineShoppingBag } from "react-icons/md";
+import { MdOutlineShoppingBag, MdToken } from "react-icons/md";
 import { CiMenuFries } from "react-icons/ci";
 import { IoIosClose } from "react-icons/io";
 import { ShopContext } from "../context/shopContext";
 
 const Header = () => {
   const [menu, setMenu] = useState(false);
-  const { setShowSearch, getCartCount, navigate } = useContext(ShopContext);
+  const { setShowSearch, getCartCount, navigate, setToken, token } =
+    useContext(ShopContext);
+
+  const logout = () => {
+    navigate("/login");
+    localStorage.removeItem("token");
+    setToken("");
+  };
 
   return (
     <div className="flex justify-between items-center py-4">
@@ -47,7 +54,7 @@ const Header = () => {
           className="flex justify-between items-center flex-col gap-0.5"
           to={"/admin"}
         >
-          <p className="border px-5 text-xs py-1 rounded-full -mt-2 py-2">
+          <p className="border px-5 text-xs rounded-full -mt-2 py-2">
             Admin Panel
           </p>
         </NavLink>
@@ -58,17 +65,23 @@ const Header = () => {
           className="text-[26px] font-bold cursor-pointer"
         />
         <div className="group relative">
-          <CiUser
-            onClick={() => navigate("/login")}
-            className="text-[26px] font-bold cursor-pointer"
-          />
-          <div className="hidden group-hover:block absolute right-0 pt-4">
-            <div className="flex flex-col gap-2 w-36 px-5 py-3 bg-slate-100 text-teal-600">
-              <p className="cursor-pointer hover:text-black">My Profile</p>
-              <p className="cursor-pointer hover:text-black">Orders</p>
-              <p className="cursor-pointer hover:text-black">Logout</p>
+          <CiUser className="text-[26px] font-bold cursor-pointer" />
+          {token && (
+            <div className="hidden group-hover:block absolute right-0 pt-4">
+              <div className="flex flex-col gap-2 w-36 px-5 py-3 bg-slate-100 text-teal-600">
+                <p className="cursor-pointer hover:text-black">My Profile</p>
+                <p
+                  onClick={() => navigate("/orders")}
+                  className="cursor-pointer hover:text-black"
+                >
+                  Orders
+                </p>
+                <p onClick={logout} className="cursor-pointer hover:text-black">
+                  Logout
+                </p>
+              </div>
             </div>
-          </div>
+          )}
         </div>
         <Link to={"/cart"} className="relative">
           <MdOutlineShoppingBag className="text-[26px] font-bold" />

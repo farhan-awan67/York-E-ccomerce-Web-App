@@ -48,6 +48,26 @@ const ShopContextProvider = ({ children }) => {
       cartData[productId][size] = 1;
     }
     setCartItem(cartData);
+
+    if (token) {
+      try {
+        const response = await axios.post(
+          `${import.meta.env.VITE_BACKEND_URL}/api/cart/add`,
+          {
+            productId,
+            size,
+          },
+          { headers: { token } }
+        );
+        if (response.data.success) {
+          toast.success(response.data.message);
+        } else {
+          toast.error(response.data.message);
+        }
+      } catch (error) {
+        toast.error(error.message);
+      }
+    }
   };
 
   const getCartCount = () => {
@@ -58,7 +78,6 @@ const ShopContextProvider = ({ children }) => {
         try {
           if (cartItem[productId][size]) {
             totalCount += cartItem[productId][size];
-            console.log(cartItem[productId][size]);
           }
         } catch (error) {
           console.log(error);
@@ -73,6 +92,40 @@ const ShopContextProvider = ({ children }) => {
 
     cartData[itemId][size] = quantity;
     setCartItem(cartData);
+
+    if (token) {
+      try {
+        const response = await axios.post(
+          `${import.meta.env.VITE_BACKEND_URL}/api/cart/update`,
+          { itemId, size, quantity },
+          { headers: { token } }
+        );
+        if (response.data.success) {
+          toast.success(response.data.message);
+        } else {
+          toast.error(response.data.message);
+        }
+      } catch (error) {
+        toast.error(error.message);
+      }
+    }
+  };
+
+  const getUserCart = async (token) => {
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/api/cart/get`,
+        {},
+        { headers: { token } }
+      );
+      if (response.data.success) {
+        setCartItem(response.data.cartData);
+      } else {
+        toast.error(response.data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
 
   //cart total
@@ -84,7 +137,6 @@ const ShopContextProvider = ({ children }) => {
         totalAmount += totalInfo.price * cartItem[productId][size];
       }
     }
-    console.log(totalAmount);
     return totalAmount;
   };
 
@@ -95,6 +147,7 @@ const ShopContextProvider = ({ children }) => {
   useEffect(() => {
     if (!token && localStorage.getItem("token")) {
       setToken(localStorage.getItem("token"));
+      getUserCart(localStorage.getItem("token"));
     }
   }, []);
 
