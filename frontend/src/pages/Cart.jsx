@@ -10,23 +10,23 @@ const Cart = () => {
 
   useEffect(() => {
     const tempData = [];
-   if(products.length > 0){
-     //getting product with product id
-     for (let productId in cartItem) {
-       //getting sizes of that specific product
-       for (let size in cartItem[productId]) {
-         if (cartItem[productId][size] > 0) {
-           tempData.push({
-             _id: productId,
-             size,
-             quantity: cartItem[productId][size],
-           });
-         }
-       }
-     }
-     setCartData(tempData);
-   }
-  }, [cartItem]);
+    if (products.length > 0) {
+      //getting product with product id
+      for (let productId in cartItem) {
+        //getting sizes of that specific product
+        for (let size in cartItem[productId]) {
+          if (cartItem[productId][size] > 0) {
+            tempData.push({
+              _id: productId,
+              size,
+              quantity: cartItem[productId][size],
+            });
+          }
+        }
+      }
+      setCartData(tempData);
+    }
+  }, [cartItem, products]);
 
   return (
     <div className="border-t pt-14">
@@ -55,15 +55,15 @@ const Cart = () => {
                     alt=""
                   />
                   <div>
-                    <p class="text-xs sm:text-lg font-medium">
+                    <p className="text-xs sm:text-lg font-medium">
                       {productData.name}
                     </p>
-                    <div class="flex items-center gap-5 mt-2">
+                    <div className="flex items-center gap-5 mt-2">
                       <p>
                         {currency}
                         {productData.price}
                       </p>
-                      <p class="px-2 sm:px-3 sm:py-1 border bg-slate-50">
+                      <p className="px-2 sm:px-3 sm:py-1 border bg-slate-50">
                         {item.size}
                       </p>
                     </div>
@@ -79,9 +79,10 @@ const Cart = () => {
                           Number(e.target.value)
                         )
                   }
-                  class="border max-w-10 sm:max-w-20 px-1 sm:px-2 py-1"
+                  className="border max-w-10 sm:max-w-20 px-1 sm:px-2 py-1"
                   type="number"
-                  min="1"
+                  min={1}
+                  defaultValue={item.quantity}
                 />
                 <img
                   onClick={() => updateCartQuantity(item._id, item.size, 0)}

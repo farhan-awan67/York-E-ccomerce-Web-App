@@ -1,12 +1,13 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useMemo } from "react";
 import { ShopContext } from "../context/shopContext";
 import Title from "./Title";
 import { useNavigate } from "react-router-dom";
 
 const CartTotal = () => {
-  const { currency, devlivery_fee, getCartTotalAmount } =
+  const { currency, devlivery_fee, getCartTotalAmount, cartItem } =
     useContext(ShopContext);
-  const navigate = useNavigate();    
+  const navigate = useNavigate();
+  const totalAmount = useMemo(() => getCartTotalAmount(), [cartItem]);
 
   return (
     <div className="flex justify-end my-20">
@@ -19,7 +20,7 @@ const CartTotal = () => {
             <div className="flex justify-between">
               <p>Subtotal</p>
               <p>
-                {currency} {getCartTotalAmount()}.00
+                {currency} {totalAmount}.00
               </p>
             </div>
             <hr />
@@ -33,7 +34,10 @@ const CartTotal = () => {
             <div className="flex justify-between">
               <b>Total</b>
               <b>
-                {currency} {getCartTotalAmount() + devlivery_fee}
+                {currency}{" "}
+                {getCartTotalAmount() === 0
+                  ? 0
+                  : totalAmount + Number(devlivery_fee)+".00"}
               </b>
             </div>
           </div>

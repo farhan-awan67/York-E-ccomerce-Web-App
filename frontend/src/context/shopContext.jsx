@@ -59,11 +59,6 @@ const ShopContextProvider = ({ children }) => {
           },
           { headers: { token } }
         );
-        if (response.data.success) {
-          toast.success(response.data.message);
-        } else {
-          toast.error(response.data.message);
-        }
       } catch (error) {
         toast.error(error.message);
       }
@@ -100,11 +95,6 @@ const ShopContextProvider = ({ children }) => {
           { itemId, size, quantity },
           { headers: { token } }
         );
-        if (response.data.success) {
-          toast.success(response.data.message);
-        } else {
-          toast.error(response.data.message);
-        }
       } catch (error) {
         toast.error(error.message);
       }
@@ -132,16 +122,26 @@ const ShopContextProvider = ({ children }) => {
   const getCartTotalAmount = () => {
     let totalAmount = 0;
     for (const productId in cartItem) {
-      const totalInfo = products.find((product) => productId === product._id);
+      const totalInfo = products?.find((product) => productId === product._id);
+      if (!totalInfo) continue; // ✅ Prevents undefined errors
       for (const size in cartItem[productId]) {
-        totalAmount += totalInfo.price * cartItem[productId][size];
+        try {
+          if (cartItem[productId][size] > 0) {
+            totalAmount += totalInfo.price * cartItem[productId][size];
+          }
+        } catch (error) {
+          console.log(error);
+          toast.error(error.message);
+        }
       }
     }
     return totalAmount;
   };
 
   useEffect(() => {
-    getProducts();
+    if (products.length === 0) {
+      getProducts();
+    }
   }, [products]);
 
   useEffect(() => {

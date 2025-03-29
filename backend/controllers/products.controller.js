@@ -1,7 +1,6 @@
 import { v2 as cloudinary } from "cloudinary";
 import Products from "../models/prouductModel.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
-import { json } from "express";
 
 //add product
 export const addProduct = asyncHandler(async (req, res) => {
