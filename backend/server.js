@@ -9,6 +9,14 @@ import productRouter from "./routes/products.routes.js";
 import cartRouter from "./routes/cart.routes.js";
 import orderRouter from "./routes/order.routes.js";
 
+//cors options
+const corsOptions = {
+  origin: [process.env.FRONTEND_URL, process.env.ADMIN_URL],
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+  credentials: true,
+};
+
 //middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
