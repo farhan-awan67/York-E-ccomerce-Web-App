@@ -14,6 +14,7 @@ import Contact from "../src/pages/Contact";
 import SearchBar from "./components/SearchBar";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Verify from "./pages/Verify";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
         <Route path="/collection" element={<Collection />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/verifyStripe" element={<Verify />} />
       </Routes>
       <Footer />
     </div>

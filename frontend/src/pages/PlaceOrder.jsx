@@ -4,6 +4,7 @@ import { assets } from "../assets/frontend_assets/assets";
 import { ShopContext } from "../context/shopContext";
 import { toast } from "react-toastify";
 import axios from "axios";
+import Loading from "../components/Loading";
 
 const PlaceOrder = () => {
   const [data, setData] = useState({
@@ -27,8 +28,8 @@ const PlaceOrder = () => {
     devlivery_fee,
   } = useContext(ShopContext);
   const [method, setMethod] = useState("cod");
-  const [error, setError] = useState({});
   const totalAmount = useMemo(() => getCartTotalAmount(), [cartItem]);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -63,20 +64,49 @@ const PlaceOrder = () => {
       };
 
       switch (method) {
+        //call for cod api
         case "cod":
-          const response = await axios.post(
-            `${import.meta.env.VITE_BACKEND_URL}/api/order/place`,
-            orderData,
-            { headers: { token } }
-          );
-          if (response.data.success) {
-            setCartItem({});
-            navigate("/orders");
-          } else {
-            toast.error(response.data.message);
+          setLoading(true);
+
+          try {
+            const response = await axios.post(
+              `${import.meta.env.VITE_BACKEND_URL}/api/order/place`,
+              orderData,
+              { headers: { token } }
+            );
+            if (response.data.success) {
+              setCartItem({});
+              navigate("/orders");
+            } else {
+              toast.error(response.data.message);
+            }
+          } catch (error) {
+            toast.error(error.message);
+          } finally {
+            setLoading(false);
           }
           break;
+        case "stripe":
+          setLoading(true);
 
+          try {
+            const responseStripe = await axios.post(
+              `${import.meta.env.VITE_BACKEND_URL}/api/order/stripe`,
+              orderData,
+              { headers: { token } }
+            );
+            if (responseStripe.data.success) {
+              const { session_url } = responseStripe.data;
+              window.location.replace(session_url);
+            } else {
+              toast.error(responseStripe.data.message);
+            }
+          } catch (error) {
+            toast.error(error.message);
+          } finally {
+            setLoading(false);
+          }
+          break;
         default:
           break;
       }
@@ -105,7 +135,6 @@ const PlaceOrder = () => {
   };
 
   const validateForm = (data) => {
-    const errors = {};
     let valid = true;
     Object.entries(data).forEach(([key, value]) => {
       validateConfig[key].some((rule) => {
@@ -115,8 +144,6 @@ const PlaceOrder = () => {
         }
       });
     });
-    console.log(errors);
-    setError(errors);
     return valid;
   };
 
@@ -260,17 +287,6 @@ const PlaceOrder = () => {
               <img className="h-5 mx-4" src={assets.stripe_logo} alt="" />
             </div>
             <div
-              onClick={() => setMethod("razorpay")}
-              className="flex items-center gap-3 border p-2 px-3 cursor-pointer"
-            >
-              <p
-                className={`min-w-3.5 h-3.5 border rounded-full ${
-                  method === "razorpay" ? "bg-green-400" : ""
-                }`}
-              ></p>
-              <img className="h-5 mx-4" src={assets.razorpay_logo} alt="" />
-            </div>
-            <div
               onClick={() => setMethod("cod")}
               className="flex items-center gap-3 border p-2 px-3 cursor-pointer"
             >
@@ -288,9 +304,13 @@ const PlaceOrder = () => {
             <button
               // onClick={() => navigate("/orders")}
               type="submit"
-              className="bg-black text-white px-16 py-3 text-sm"
+              className="bg-black text-white px-16 py-3 text-sm flex justify-center items-center"
             >
-              PLACE ORDER
+              {loading ? (
+                <Loading className="w-[27px] h-[27px] sm:w-[55px] sm:h-[55px] rounded-full border-4 border-t-4 sm:border-7 sm:border-t-7" />
+              ) : (
+                "PLACE ORDER"
+              )}
             </button>
           </div>
         </div>

@@ -7,7 +7,6 @@ const Login = ({ setToken }) => {
     email: "",
     password: "",
   });
-  const [error, setError] = useState({});
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -59,7 +58,6 @@ const Login = ({ setToken }) => {
           },
         });
       }
-      console.log(response.data.message);
     } catch (error) {
       toast.error(error.message, {
         position: "top-right", // Position of the toast
@@ -90,7 +88,6 @@ const Login = ({ setToken }) => {
   };
 
   const validateData = (data) => {
-    const errorData = {};
     let isValid = true;
     Object.entries(data).forEach(([key, value]) => {
       validateConfig[key].some((rule) => {
@@ -114,7 +111,6 @@ const Login = ({ setToken }) => {
         }
       });
     });
-    setError(errorData);
     return isValid;
   };
 

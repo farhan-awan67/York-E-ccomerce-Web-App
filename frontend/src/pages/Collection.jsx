@@ -2,9 +2,10 @@ import React, { useContext, useEffect, useState } from "react";
 import { ShopContext } from "../context/shopContext";
 import ProductItem from "../components/ProductItem";
 import Title from "../components/Title";
+import Loading from "../components/Loading";
 
 const Collection = () => {
-  const { products, search, showSearch } = useContext(ShopContext);
+  const { products, search, showSearch, loading } = useContext(ShopContext);
   const [showFilter, setShowFilter] = useState(false);
   const [filterProducts, setFilterProducts] = useState([]);
   const [category, setCategory] = useState([]);
@@ -18,7 +19,6 @@ const Collection = () => {
     } else {
       setCategory((prev) => [...prev, e.target.value]);
     }
-    console.log(category);
   };
 
   const handleSubCategory = (e) => {
@@ -131,7 +131,7 @@ const Collection = () => {
                 className="w-3"
                 type="checkbox"
                 value="Topwear"
-              />{" "}
+              />
               Topwear
             </p>
             <p className="flex gap-2">
@@ -140,7 +140,7 @@ const Collection = () => {
                 className="w-3"
                 type="checkbox"
                 value="Bottomwear"
-              />{" "}
+              />
               Bottomwear
             </p>
             <p className="flex gap-2">
@@ -149,7 +149,7 @@ const Collection = () => {
                 className="w-3"
                 type="checkbox"
                 value="Winterwear"
-              />{" "}
+              />
               Winterwear
             </p>
           </div>
@@ -173,17 +173,21 @@ const Collection = () => {
 
         {/* rendering products */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 gap-y-6">
-          {filterProducts.map((item, idx) => {
-            return (
-              <ProductItem
-                key={idx}
-                id={item._id}
-                name={item.name}
-                price={item.price}
-                image={item.image[0]}
-              />
-            );
-          })}
+          {loading ? (
+            <Loading className="w-[27px] h-[27px] sm:w-[55px] sm:h-[55px] rounded-full border-4 border-t-4 sm:border-7 sm:border-t-7" />
+          ) : (
+            filterProducts.map((item, idx) => {
+              return (
+                <ProductItem
+                  key={idx}
+                  id={item._id}
+                  name={item.name}
+                  price={item.price}
+                  image={item.image[0]}
+                />
+              );
+            })
+          )}
         </div>
       </div>
     </div>

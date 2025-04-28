@@ -32,7 +32,6 @@ const List = ({ token }) => {
         toast.success(response.data.message);
       }
     } catch (error) {
-      console.log(error.message);
       toast.error(error.message);
     }
   };

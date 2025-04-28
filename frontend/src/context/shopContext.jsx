@@ -14,8 +14,10 @@ const ShopContextProvider = ({ children }) => {
   const [cartItem, setCartItem] = useState({});
   const navigate = useNavigate();
   const [token, setToken] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const getProducts = async () => {
+    setLoading(true);
     try {
       const response = await axios.get(
         `${import.meta.env.VITE_BACKEND_URL}/api/product/products`
@@ -25,6 +27,8 @@ const ShopContextProvider = ({ children }) => {
       }
     } catch (error) {
       toast.error(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -75,7 +79,7 @@ const ShopContextProvider = ({ children }) => {
             totalCount += cartItem[productId][size];
           }
         } catch (error) {
-          console.log(error);
+          toast.error(error.message);
         }
       }
     }
@@ -130,7 +134,6 @@ const ShopContextProvider = ({ children }) => {
             totalAmount += totalInfo.price * cartItem[productId][size];
           }
         } catch (error) {
-          console.log(error);
           toast.error(error.message);
         }
       }
@@ -168,6 +171,7 @@ const ShopContextProvider = ({ children }) => {
     navigate,
     token,
     setToken,
+    loading,
   };
   return <ShopContext.Provider value={value}>{children}</ShopContext.Provider>;
 };

@@ -12,6 +12,14 @@ const Header = () => {
   const { setShowSearch, getCartCount, navigate, setToken, token } =
     useContext(ShopContext);
 
+  const handleNavigate = () => {
+    if (token) {
+      return null;
+    } else {
+      navigate("/login");
+    }
+  };
+
   const logout = () => {
     navigate("/login");
     localStorage.removeItem("token");
@@ -65,7 +73,10 @@ const Header = () => {
           className="text-[26px] font-bold cursor-pointer"
         />
         <div className="group relative">
-          <CiUser className="text-[26px] font-bold cursor-pointer" />
+          <CiUser
+            className="text-[26px] font-bold cursor-pointer"
+            onClick={handleNavigate}
+          />
           {token && (
             <div className="hidden group-hover:block absolute right-0 pt-4">
               <div className="flex flex-col gap-2 w-36 px-5 py-3 bg-slate-100 text-teal-600">
@@ -92,7 +103,6 @@ const Header = () => {
         <CiMenuFries
           onClick={() => {
             setMenu(!menu);
-            console.log("clicked");
           }}
           className="text-[24px] font-extrabold block sm:hidden cursor-pointer"
         />
@@ -116,7 +126,6 @@ const Header = () => {
             <p
               onClick={() => {
                 setMenu(!menu);
-                console.log("clicked");
               }}
               className="text-[16px] font-medium"
             >
@@ -131,7 +140,6 @@ const Header = () => {
             <p
               onClick={() => {
                 setMenu(!menu);
-                console.log("clicked");
               }}
               className="text-[16px] font-medium"
             >
@@ -146,7 +154,6 @@ const Header = () => {
             <p
               onClick={() => {
                 setMenu(!menu);
-                console.log("clicked");
               }}
               className="text-[16px] font-medium"
             >
@@ -161,7 +168,6 @@ const Header = () => {
             <p
               onClick={() => {
                 setMenu(!menu);
-                console.log("clicked");
               }}
               className="text-[16px] font-medium"
             >
@@ -176,7 +182,6 @@ const Header = () => {
             <p
               onClick={() => {
                 setMenu(!menu);
-                console.log("clicked");
               }}
               className="text-[14px] font-medium rounded-full"
             >
