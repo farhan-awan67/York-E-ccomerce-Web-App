@@ -18,6 +18,7 @@ export const addProduct = asyncHandler(async (req, res) => {
     images.map(async (item) => {
       let result = await cloudinary.uploader.upload(item.path, {
         resource_type: "image",
+        folder: "york_eccomerce",
       });
       return result.secure_url;
     })
