@@ -16,6 +16,8 @@ const BestSeller = () => {
     setBestSellerProduct(bestSeller.slice(0, 5));
   }, []);
 
+  
+
   return (
     <div className="flex flex-col justify-between items-center gap-2 my-10">
       <div className="text-center py-8 text-3xl">

@@ -11,15 +11,21 @@ const RelatedProducts = ({ category, subCategory }) => {
     if (products.length > 0) {
       let productsCopy = products.slice();
 
-      //   for category
-      productsCopy = productsCopy.filter((item) => {
-        category === item.category;
-      });
+      if (category) {
+        productsCopy = productsCopy.filter(
+          (item) =>
+            item.category?.trim().toLowerCase() ===
+            category?.trim().toLowerCase()
+        );
+      }
 
-      //   for subcategory
-      productsCopy = productsCopy.filter((item) => {
-        subCategory === item.subcategory;
-      });
+      if (subCategory) {
+        productsCopy = productsCopy.filter(
+          (item) =>
+            item.subCategory?.trim().toLowerCase() ===
+            subCategory?.trim().toLowerCase()
+        );
+      }
 
       setRelatedProducts(productsCopy.slice(0, 5));
     }

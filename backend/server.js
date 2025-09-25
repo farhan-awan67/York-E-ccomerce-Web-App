@@ -9,9 +9,17 @@ import productRouter from "./routes/products.routes.js";
 import cartRouter from "./routes/cart.routes.js";
 import orderRouter from "./routes/order.routes.js";
 
+const allowedOrigin = [
+  "http://localhost:5173",
+
+  "http://localhost:5174",
+  process.env.FRONTEND_URL,
+  process.env.ADMIN_URL,
+];
+
 //cors options
 const corsOptions = {
-  origin: [process.env.FRONTEND_URL, process.env.ADMIN_URL],
+  origin: allowedOrigin,
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
   credentials: true,
