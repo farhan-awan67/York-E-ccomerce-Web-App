@@ -60,7 +60,7 @@ const Header = () => {
         </NavLink>
         <NavLink
           className="flex justify-between items-center flex-col gap-0.5"
-          to={"/admin"}
+          to={"https://york-e-ccomerce-web-app-15zm.vercel.app"}
         >
           <p className="border px-5 text-xs rounded-full -mt-2 py-2">
             Admin Panel
