@@ -15,6 +15,7 @@ const ShopContextProvider = ({ children }) => {
   const navigate = useNavigate();
   const [token, setToken] = useState("");
   const [loading, setLoading] = useState(false);
+  const [messages, setMessages] = useState([]);
 
   const getProducts = async () => {
     setLoading(true);
@@ -141,6 +142,84 @@ const ShopContextProvider = ({ children }) => {
     return totalAmount;
   };
 
+  const chatBot = async (updatedMessages) => {
+    const productsCopy = products.slice();
+    const productSummary = productsCopy
+      .map(
+        (p, i) =>
+          `${i + 1}. ${p.name} - Category: ${p.category}, Price: $${p.price}`
+      )
+      .join("\n");
+
+    setLoading(true);
+
+    try {
+      const res = await axios.post(
+        "https://openrouter.ai/api/v1/chat/completions",
+        {
+          model: "mistralai/mistral-7b-instruct",
+          messages: [
+            {
+              role: "system",
+              content: `You are a helpful shopping assistant for the York ecommerce site.
+If a user says "hello", respond with a short friendly greeting.
+Match product inquiries with the provided product list. The product list includes categories such as "Men", "Women", and "Kids (Girls)".
+💡 Important:
+- If someone says "boys", assume they mean "Men" or "Kids (Boys)".
+- If they say "girls", assume "Kids (Girls)".
+- If they say "ladies" or "women", assume "Women".
+- If the category isn't directly mentioned in the product list, suggest similar available ones.
+Always help by showing matching products from the list.
+If no products match, politely inform and suggest alternatives.
+Keep responses clear, concise, and friendly.
+Format the matching products as a numbered list, with each product on its own line, including product name, category, and price.
+Example response format:
+Here are the boys' products under $150:
+1. Men Round Neck Pure Cotton T-shirt - Category: Men, Price: $110
+2. Men Tapered Fit Flat-Front Trousers - Category: Men, Price: $110
+3. Men Round Neck Pure Cotton T-shirt - Category: Men, Price: $120
+
+Would you like more details on any of these? 😊
+
+Product list:
+${productSummary}
+
+
+`,
+            },
+            ...updatedMessages,
+          ],
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${import.meta.env.VITE_OPENROUTER_API_KEY}`,
+            "Content-Type": "application/json",
+            "HTTP-Referer": "http://localhost:5173",
+          },
+        }
+      );
+
+      const reply = res.data.choices?.[0]?.message;
+      console.log(reply);
+
+      if (reply?.content?.trim()) {
+        setMessages((prev) => [...prev, reply]);
+      } else {
+        setMessages((prev) => [
+          ...prev,
+          {
+            role: "assistant",
+            content: "Hi there! 👋 How can I help you today?",
+          },
+        ]);
+      }
+    } catch (error) {
+      console.log("Bot Error:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     if (products.length === 0) {
       getProducts();
@@ -172,6 +251,9 @@ const ShopContextProvider = ({ children }) => {
     token,
     setToken,
     loading,
+    chatBot,
+    messages,
+    setMessages,
   };
   return <ShopContext.Provider value={value}>{children}</ShopContext.Provider>;
 };
