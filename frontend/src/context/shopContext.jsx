@@ -200,7 +200,6 @@ ${productSummary}
       );
 
       const reply = res.data.choices?.[0]?.message;
-      console.log(reply);
 
       if (reply?.content?.trim()) {
         setMessages((prev) => [...prev, reply]);
@@ -214,7 +213,7 @@ ${productSummary}
         ]);
       }
     } catch (error) {
-      console.log("Bot Error:", error);
+      toast.error(error);
     } finally {
       setLoading(false);
     }
