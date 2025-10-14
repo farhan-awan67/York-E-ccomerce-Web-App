@@ -5,7 +5,7 @@ import Stripe from "stripe";
 
 //global variable
 const currency = "Pkr";
-const deliveryCharge = 10;
+const deliveryCharge = 50;
 
 //stripe configuration
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);

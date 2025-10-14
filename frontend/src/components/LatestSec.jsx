@@ -10,7 +10,7 @@ const LatestSec = () => {
   useEffect(() => {
     setLatestProduct(products.slice(0, 10));
   }, [products]);
-  
+
   return (
     <div className="flex flex-col justify-between items-center gap-2 my-10">
       <div className="text-center py-8 text-3xl">
@@ -22,11 +22,11 @@ const LatestSec = () => {
       </div>
 
       {/* rendering products */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 gap-y-6">
-        {loading ? (
-          <Loading className="w-[27px] h-[27px] sm:w-[55px] sm:h-[55px] rounded-full border-4 border-t-4 sm:border-7 sm:border-t-7" />
-        ) : (
-          latestProduct.map((item) => {
+      {loading ? (
+        <Loading className="w-[27px] h-[27px] sm:w-[55px] sm:h-[55px] rounded-full border-4 border-t-4 sm:border-7 sm:border-t-7" />
+      ) : (
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 gap-y-6">
+          {latestProduct.map((item) => {
             // Swap item and idx
             return (
               <ProductItem
@@ -37,9 +37,9 @@ const LatestSec = () => {
                 image={item.image[0]} // Assuming item.image is an array and you want the first image
               />
             );
-          })
-        )}
-      </div>
+          })}
+        </div>
+      )}
     </div>
   );
 };

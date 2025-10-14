@@ -28,7 +28,12 @@ const Header = () => {
 
   return (
     <div className="flex justify-between items-center py-4">
-      <h1 className="text-[45px] tracking-tighter leading-none">York.</h1>
+      <h1
+        onClick={() => navigate("/")}
+        className="text-[45px] tracking-tighter leading-none cursor-pointer"
+      >
+        York.
+      </h1>
       <div className="justify-between items-center gap-4 hidden sm:flex text-[#5D5C68]">
         <NavLink
           className="flex justify-between items-center flex-col gap-0.5"

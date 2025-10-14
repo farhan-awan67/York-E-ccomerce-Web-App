@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import Title from "./Title";
 import ProductItem from "./ProductItem";
 import { ShopContext } from "../context/shopContext";
@@ -6,20 +6,15 @@ import Loading from "./Loading";
 
 const BestSeller = () => {
   const { products, loading } = useContext(ShopContext);
-  const [bestSellerProducts, setBestSellerProduct] = useState([]);
+  // const [bestSellerProducts, setBestSellerProduct] = useState([]);
 
   //fetching best seller products
-  useEffect(() => {
-    //filtering
-    const bestSeller = products.filter((item) => item.bestSeller);
-    //setting in state
-    setBestSellerProduct(bestSeller.slice(0, 5));
-  }, []);
-
-  
+  const bestSellerProducts = useMemo(() => {
+    return products.filter((item) => item.bestSeller).slice(0, 5);
+  }, [products]);
 
   return (
-    <div className="flex flex-col justify-between items-center gap-2 my-10">
+    <div className="flex flex-col  justify-between items-center gap-2 my-10">
       <div className="text-center py-8 text-3xl">
         <Title text1={"BEST"} text2={"SELLER"} />
         <p className="text-center text-sm font-medium text-gray-700">
@@ -27,13 +22,12 @@ const BestSeller = () => {
           industry. Lorem Ipsum has been the.
         </p>
       </div>
-
       {/* rendering products */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 gap-y-6">
-        {loading ? (
-          <Loading className="w-[27px] h-[27px] sm:w-[55px] sm:h-[55px] rounded-full border-4 border-t-4 sm:border-7 sm:border-t-7" />
-        ) : (
-          bestSellerProducts.map((item) => {
+      {loading ? (
+        <Loading className="w-[27px] h-[27px] sm:w-[55px] sm:h-[55px] rounded-full border-4 border-t-4 sm:border-7 sm:border-t-7" />
+      ) : (
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 gap-y-6">
+          {bestSellerProducts.map((item) => {
             // Swap item and idx
             return (
               <ProductItem
@@ -44,9 +38,9 @@ const BestSeller = () => {
                 image={item.image[0]} // Assuming item.image is an array and you want the first image
               />
             );
-          })
-        )}
-      </div>
+          })}
+        </div>
+      )}
     </div>
   );
 };

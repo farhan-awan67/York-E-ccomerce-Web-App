@@ -25,7 +25,7 @@ const Verify = () => {
         setCartItem({});
         navigate("/orders");
       } else {
-        navigate("/");
+        navigate("/cart");
       }
     } catch (error) {
       toast.error(error.message);
@@ -35,7 +35,7 @@ const Verify = () => {
   useEffect(() => {
     verifyStripe();
   }, [token]);
-  return <div></div>;
+  return <div className="h-screen"></div>;
 };
 
 export default Verify;
