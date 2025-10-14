@@ -55,7 +55,7 @@ const ChatBot = () => {
 
       {/* Chat Window with animation */}
       <div
-        className={`fixed bottom-4 right-4 w-full max-w-80 z-50 transform transition-all duration-300 ${
+        className={`fixed bottom-4 right-2.5 w-full max-w-[300px] sm:max-w-80 z-50 transform transition-all duration-300 sm:right-4 ${
           open
             ? "scale-100 opacity-100"
             : "scale-90 opacity-0 pointer-events-none"
