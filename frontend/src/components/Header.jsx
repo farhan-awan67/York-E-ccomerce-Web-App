@@ -85,7 +85,6 @@ const Header = () => {
           {token && (
             <div className="hidden group-hover:block absolute right-0 pt-4">
               <div className="flex flex-col gap-2 w-36 px-5 py-3 bg-slate-100 text-teal-600">
-                <p className="cursor-pointer hover:text-black">My Profile</p>
                 <p
                   onClick={() => navigate("/orders")}
                   className="cursor-pointer hover:text-black"

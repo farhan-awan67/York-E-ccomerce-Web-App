@@ -307,7 +307,7 @@ const PlaceOrder = () => {
               className="bg-black text-white px-16 py-3 text-sm flex justify-center items-center"
             >
               {loading ? (
-                <Loading className="w-[17px] h-[17px] sm:w-[55px] sm:h-[55px] rounded-full border-4 border-t-4 sm:border-7 sm:border-t-7" />
+                <Loading className="w-[9px] h-[9px] rounded-full border-4 border-t-4 sm:border-7 sm:border-t-7" />
               ) : (
                 "PLACE ORDER"
               )}
