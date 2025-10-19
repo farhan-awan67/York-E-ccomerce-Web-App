@@ -34,6 +34,7 @@ const ShopContextProvider = ({ children }) => {
   };
 
   const addToCart = async (productId, size) => {
+    if (!token) return navigate("/login");
     let cartData = structuredClone(cartItem);
 
     //preventing from add to cart
@@ -142,6 +143,7 @@ const ShopContextProvider = ({ children }) => {
     return totalAmount;
   };
 
+  // chat bot
   const chatBot = async (updatedMessages) => {
     const productsCopy = products.slice();
     const productSummary = productsCopy
