@@ -9,7 +9,7 @@ const Navbar = ({ setToken }) => {
         York Admin Panel
       </h1>
       <button
-        onClick={() => (setToken(""))}
+        onClick={() => setToken("")}
         className="cursor-pointer bg-gray-600 text-white px-5 py-2 sm:px-7 sm:py-2 rounded-full text-xs sm:text-sm"
       >
         Logout

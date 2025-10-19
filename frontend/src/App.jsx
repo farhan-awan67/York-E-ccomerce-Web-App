@@ -16,6 +16,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Verify from "./pages/Verify";
 import ChatBot from "./components/ChatBot";
+import ProtectedRoutes from "./components/ProtectedRoutes";
 
 function App() {
   return (
@@ -27,14 +28,42 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/orders" element={<Orders />} />
-        <Route path="/place-order" element={<PlaceOrder />} />
+        <Route
+          path="/orders"
+          element={
+            <ProtectedRoutes>
+              <Orders />
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path="/place-order"
+          element={
+            <ProtectedRoutes>
+              <PlaceOrder />
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path="/cart"
+          element={
+            <ProtectedRoutes>
+              <Cart />
+            </ProtectedRoutes>
+          }
+        />
         <Route path="/product/:productId" element={<Product />} />
-        <Route path="/cart" element={<Cart />} />
         <Route path="/collection" element={<Collection />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
-        <Route path="/verify" element={<Verify />} />
+        <Route
+          path="/verify"
+          element={
+            <ProtectedRoutes>
+              <Verify />
+            </ProtectedRoutes>
+          }
+        />
       </Routes>
       <Footer />
     </div>
